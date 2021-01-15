@@ -13,10 +13,10 @@ jobs:
       - name: Publish to Docker hub
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: outisa/todo-application
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: ${{ github_ref }}
+          name: outisa/todo-application
+          tags: ${{ github.ref }}
       - uses: actions/checkout@v2
         with:
           fetch-depth: '0'
