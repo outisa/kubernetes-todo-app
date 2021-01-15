@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: todo
-          image: outisa/todo:v0.2.0
+          image: outisa/todo-application:v0.2.0
