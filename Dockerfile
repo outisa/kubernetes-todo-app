@@ -1,9 +1,14 @@
 FROM node:alpine
 
 WORKDIR app/
-COPY . .
-RUN npm install
+COPY ./frontend/ ./frontend/
+RUN cd frontend && npm ci && cd ..
 
+COPY ./backend/ ./backend/
+
+RUN cd nackend && npm ci && \
+    npm run build:ui && \
+    rm -rf /app/frontend/node_modules/*
 EXPOSE 3001
 
 CMD ["npm", "start"]
