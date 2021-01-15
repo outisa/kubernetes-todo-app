@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: todo
-          image: outisa/todo-application:44468886d2ec9245108ddad371a5308c9d6f7705
+          image: outisa/todo-application:ee4b8ac72f17d5eccd06202397141a2351a66345
