@@ -60,6 +60,7 @@ todoRouter.get('/image', async (request, response) => {
     }
     imageToSend = await getImage()
     if (!imageToSend) {
+      console.log(imageToSend, 'image')
       await getNewImage()
     }
   }
