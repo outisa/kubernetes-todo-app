@@ -2,6 +2,7 @@ const todoRouter = require('express').Router()
 const axios = require('axios')
 const path = require('path')
 const fs = require('fs')
+const { Z_FULL_FLUSH } = require('zlib')
 
 const directory = path.join('/', 'app', 'backend', 'files')
 const imagePath = path.join(directory, 'image.jpg')
@@ -33,32 +34,16 @@ const isToday = (time) => {
   }
   return false
 }
-const getNewImage = async () => {
+const getNewImage =  async () => {
   const response = await axios.get('https://picsum.photos/1200', { responseType: 'stream' })
-  await response.data.pipe(fs.createWriteStream(imagePath))
-  if (fs.existsSync(imagePath)) {
-    return fs.readFileSync(imagePath, (err) => {
-      if (err) console.log(err)
-    })
-  }
-  return null
+  return new Promise(resolve => {
+    response.data.pipe(fs.createWriteStream(imagePath).on('finish', resolve)) 
+  })
 }
 const getImage = async () => {
-  if (fs.existsSync(imagePath)) {
-    const stats = fs.statSync(imagePath)
-    const time = stats.mtime
-    console.log(time)
-    if (!isToday(time)){
-      fs.unlink(imagePath, (err) => console.log(err))
-      return await getNewImage()
-    } else {
-      return fs.readFileSync(imagePath, (err) => {
-        if (err) console.log(err)
-      })
-    }
-  } else {
-    return await getNewImage()
-  }
+  return fs.readFileSync(imagePath, (err) => {
+    if (err) console.log(err)
+  }) 
 }
 
 todoRouter.get('/', async (request, response) => {
@@ -66,7 +51,21 @@ todoRouter.get('/', async (request, response) => {
 })
 
 todoRouter.get('/image', async (request, response) => {
-  const imageToSend = await getImage()
+  let imageToSend = ''
+  if (!fs.existsSync(imagePath)){
+    await getNewImage()
+  } else {
+    const stats = fs.statSync(imagePath)
+    const time = stats.mtime
+    if (!isToday(time)){
+      fs.unlink(imagePath, (err) => console.log(err))
+      await getNewImage()
+    }
+  }
+  if (fs.existsSync(imagePath)) {
+    imageToSend = await getImage()
+  }
+  console.log(imageToSend)
   response.set('Content-type', 'application/json');
   response.send(imageToSend)
 })
