@@ -20,5 +20,5 @@ spec:
         - name: todo
           image: outisa/todo-application:c082d9bb3cf57b7943be072d54d6d2df9adabecd
           volumeMounts:
-            - mountPath: /app/files
+            - mountPath: /app/backend/files
               name: shared-image

@@ -51,16 +51,13 @@ todoRouter.get('/', async (request, response) => {
 
 todoRouter.get('/image', async (request, response) => {
   let imageToSend = ''
-  if (fs.existsSync(imagePath)){
+  if (!fs.existsSync(imagePath)){
+    await getNewImage()
+  } else {
     const stats = fs.statSync(imagePath)
     const time = stats.mtime
     if (!isToday(time)){
       fs.unlink(imagePath, (err) => console.log(err))
-      await getNewImage()
-    }
-    imageToSend = await getImage()
-    if (!imageToSend) {
-      console.log(imageToSend, 'image')
       await getNewImage()
     }
   }
