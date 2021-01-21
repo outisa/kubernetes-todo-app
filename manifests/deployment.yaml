@@ -12,6 +12,13 @@ spec:
       labels:
         app: todo
     spec:
+      volumes:
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: image-claim
       containers:
         - name: todo
           image: outisa/todo-application:ee4b8ac72f17d5eccd06202397141a2351a66345
+          volumeMounts:
+            - mountPath: /app/files
+              name: shared-image

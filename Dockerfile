@@ -8,6 +8,7 @@ COPY ./backend/ .
 
 RUN npm ci && \
     npm run build:ui && \
+    mkdir files && \
     rm -rf /app/frontend/node_modules/*
 
 EXPOSE 3001
