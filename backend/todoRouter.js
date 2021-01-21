@@ -2,7 +2,6 @@ const todoRouter = require('express').Router()
 const axios = require('axios')
 const path = require('path')
 const fs = require('fs')
-const { Z_FULL_FLUSH } = require('zlib')
 
 const directory = path.join('/', 'app', 'backend', 'files')
 const imagePath = path.join(directory, 'image.jpg')
@@ -52,13 +51,15 @@ todoRouter.get('/', async (request, response) => {
 
 todoRouter.get('/image', async (request, response) => {
   let imageToSend = ''
-  if (!fs.existsSync(imagePath)){
-    await getNewImage()
-  } else {
+  if (fs.existsSync(imagePath)){
     const stats = fs.statSync(imagePath)
     const time = stats.mtime
     if (!isToday(time)){
       fs.unlink(imagePath, (err) => console.log(err))
+      await getNewImage()
+    }
+    imageToSend = await getImage()
+    if (!imageToSend) {
       await getNewImage()
     }
   }
