@@ -42,7 +42,7 @@ const App = () => {
     <div style={styles}>
       <h2>Todo App</h2>
       {image ?
-        <img src={image} alt='Random pic' width='300' height='300'/>
+        <img src={image} alt='Random pic' width='400' height='400'/>
         : null
       }
       <form  onSubmit={addTodo}>

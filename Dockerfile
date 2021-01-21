@@ -9,6 +9,9 @@ COPY ./backend/ .
 RUN npm ci && \
     npm run build:ui && \
     mkdir files && \
+    cd files && \
+    touch image.jpg && \
+    cd .. && \
     rm -rf /app/frontend/node_modules/*
 
 EXPOSE 3001
