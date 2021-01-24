@@ -52,7 +52,7 @@ todoRouter.get('/', async (request, response) => {
 todoRouter.post('/', async (request, response) => {
   const todoToSave =  {
     todo: request.body.todo,
-    id: todoList.length()+1
+    id: todoList.length +1
   }
   todoList = todoList.concat(todo)
   response.json(todoToSave)
