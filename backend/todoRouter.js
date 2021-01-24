@@ -6,7 +6,7 @@ const fs = require('fs')
 const directory = path.join('/', 'app', 'backend', 'files')
 const imagePath = path.join(directory, 'image.jpg')
 
-const todoList = [
+let todoList = [
   {
     id: 1,
     todo: 'Clean your room'
