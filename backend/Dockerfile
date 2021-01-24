@@ -5,7 +5,7 @@ WORKDIR app/backend
 COPY . .
 
 RUN npm ci && \
-    mkdir files && \
+    mkdir files
 
 EXPOSE 3001
 
