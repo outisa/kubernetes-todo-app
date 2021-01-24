@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: todo-frontend
-          image: outisa/todo-application-frontend:fc829f5744cc358ceef9671bb688b3adc83e763f
+          image: outisa/todo-application-frontend:65a084a3341770804bbdd892b7bc316985325210
