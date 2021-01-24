@@ -54,7 +54,7 @@ todoRouter.post('/', async (request, response) => {
     todo: request.body.todo,
     id: todoList.length +1
   }
-  todoList = todoList.concat(todo)
+  todoList = todoList.concat(todoToSave)
   response.json(todoToSave)
 })
 
