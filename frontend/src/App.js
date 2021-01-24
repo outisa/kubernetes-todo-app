@@ -40,7 +40,9 @@ const App = () => {
       todo: newTodo
     }
     const addedTodo = await axios.post(baseUrl, todoToSave)
-    setTodos(todos.concat(addedTodo))
+    console.log(addedTodo)
+    console.log(addedTodo.data)
+    setTodos(todos.concat(addedTodo.data))
     setTodo('')
   }
   return (
