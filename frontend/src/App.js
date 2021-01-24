@@ -33,9 +33,14 @@ const App = () => {
     console.log(todo)
     setTodo(todo)
   }
-  const addTodo = (event) => {
+  const addTodo = async (event) => {
     event.preventDefault()
     console.log('button clicked')
+    const todoToSave = {
+      todo: newTodo
+    }
+    const addedTodo = await axios.post(baseUrl, todoToSave)
+    setTodos(todos.concat(addedTodo))
     setTodo('')
   }
   return (

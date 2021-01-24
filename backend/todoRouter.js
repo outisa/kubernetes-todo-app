@@ -49,6 +49,15 @@ todoRouter.get('/', async (request, response) => {
   response.json(todoList)
 })
 
+todoRouter.post('/', async (request, response) => {
+  const todoToSave =  {
+    todo: request.body.todo,
+    id: todoList.length()+1
+  }
+  todoList = todoList.concat(todo)
+  response.json(todoToSave)
+})
+
 todoRouter.get('/image', async (request, response) => {
   let imageToSend = ''
   if (!fs.existsSync(imagePath)){
