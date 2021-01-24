@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-dep
+  name: todo-backend-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: todo
+      app: todo-backend
   template:
     metadata:
       labels:
-        app: todo
+        app: todo-backend
     spec:
       volumes:
         - name: shared-image
           persistentVolumeClaim:
             claimName: image-claim
       containers:
-        - name: todo
-          image: outisa/todo-application:2f66c2579b64ab103354bed5ba7761386324bf5d
+        - name: todo-backend
+          image: outisa/todo-application-backend:2f66c2579b64ab103354bed5ba7761386324bf5d
           volumeMounts:
             - mountPath: /app/backend/files
               name: shared-image

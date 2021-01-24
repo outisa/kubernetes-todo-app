@@ -8,5 +8,9 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: todo-svc
+          serviceName: todo-frontend-svc
+          servicePort: 2345
+      - path: /api
+        backend:
+          serviceName: todo-backend-svc
           servicePort: 2345
