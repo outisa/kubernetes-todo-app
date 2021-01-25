@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  namespace: todoapp-namespace
   name: image-claim
 spec:
   storageClassName: local-path
