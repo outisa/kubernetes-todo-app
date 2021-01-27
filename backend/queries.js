@@ -25,11 +25,11 @@ const createTable = async () => {
   })
 }
 
-const addTodo = async (todo) => {
-  const queryText = `INSERT INTO todos (todo) VALUES ($1)`
+const addTodo = async (todoToSave) => {
+  const queryText = `INSERT INTO todos (todo, done) VALUES ($1, $2) RETURNING *`
   try {
-    const results = await pool.query(queryText, [todo])
-    console.log(results)
+    const results = await pool.query(queryText, [todoToSave.todo, todoToSave.done])
+    console.log('results',results)
     return results.rows[0]
 
   } catch (error) {
@@ -38,7 +38,7 @@ const addTodo = async (todo) => {
 }
 
 const getTodos = async () => {
-  const queryText = 'SELECT * FROM todos WHERE id = 1'
+  const queryText = 'SELECT * FROM todos'
   try {
     const results = await pool.query(queryText)
     return results.rows
