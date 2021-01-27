@@ -2,25 +2,12 @@ const todoRouter = require('express').Router()
 const axios = require('axios')
 const path = require('path')
 const fs = require('fs')
+const { createTable, getTodos, addTodo } = require('./queries')
 
 const directory = path.join('/', 'app', 'backend', 'files')
 const imagePath = path.join(directory, 'image.jpg')
 
-let todoList = [
-  {
-    id: 1,
-    todo: 'Clean your room'
-  },
-  {
-    id: 2,
-    todo: 'Make homeworks'
-  },
-  {
-    id: 3,
-    todo: 'Get kubernetes part 1 done!' 
-  }
-]
-
+createTable()
 const isToday = (time) => {
   console.log(JSON.stringify(time))
   const timeStr = JSON.stringify(time)
@@ -46,16 +33,16 @@ const getImage = async () => {
 }
 
 todoRouter.get('/', async (request, response) => {
+  const todoList = await getTodos()
   response.json(todoList)
 })
 
 todoRouter.post('/', async (request, response) => {
   const todoToSave =  {
     todo: request.body.todo,
-    id: todoList.length +1
   }
-  todoList = todoList.concat(todoToSave)
-  response.json(todoToSave)
+  savedTodo = await addTodo(todoToSave)
+  response.json(savedTodo)
 })
 
 todoRouter.get('/image', async (request, response) => {

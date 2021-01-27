@@ -23,3 +23,9 @@ spec:
           volumeMounts:
             - mountPath: /app/backend/files
               name: shared-image
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-credentials-todos
+                key: POSTGRES_PASSWORD    
