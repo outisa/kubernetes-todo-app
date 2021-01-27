@@ -34,12 +34,14 @@ const getImage = async () => {
 
 todoRouter.get('/', async (request, response) => {
   const todoList = await getTodos()
+  console.log(todos)
   response.json(todoList)
 })
 
 todoRouter.post('/', async (request, response) => {
   const todoToSave =  {
     todo: request.body.todo,
+    done: false
   }
   savedTodo = await addTodo(todoToSave)
   response.json(savedTodo)

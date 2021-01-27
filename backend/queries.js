@@ -29,7 +29,7 @@ const addTodo = async (todo) => {
   const queryText = `INSERT INTO todos (todo) VALUES ($1)`
   try {
     const results = await pool.query(queryText, [todo])
-    console.log(results.rows[0])
+    console.log(results)
     return results.rows[0]
 
   } catch (error) {

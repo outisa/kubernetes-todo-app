@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
 const App = () => {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([])
   const [image, setImage] = useState('')
   const [newTodo, setTodo] = useState('')
   const baseUrl = '/api/todos';
@@ -11,6 +11,7 @@ const App = () => {
       .get(baseUrl)
       .then(response => {
         setTodos(response.data)
+        console.log(response.data)
       })
   }
   const getImage = () => {
