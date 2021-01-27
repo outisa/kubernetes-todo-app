@@ -34,7 +34,6 @@ const getImage = async () => {
 
 todoRouter.get('/', async (request, response) => {
   const todoList = await getTodos()
-  console.log(todoList)
   response.json(todoList)
 })
 

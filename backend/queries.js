@@ -29,9 +29,7 @@ const addTodo = async (todoToSave) => {
   const queryText = `INSERT INTO todos (todo, done) VALUES ($1, $2) RETURNING *`
   try {
     const results = await pool.query(queryText, [todoToSave.todo, todoToSave.done])
-    console.log('results',results)
     return results.rows[0]
-
   } catch (error) {
     console.log('error insert into table', error)
   }
@@ -50,7 +48,6 @@ const updateTodo = async (id, done) => {
   const queryText = `UPDATE todos SET done = $1 WHERE id = $2`
   try {
     const results = await pool.query(queryText, [done, id])
-    console.log(results.rows[0])
     return results.rows[0]
   } catch (error) {
     console.log('update row', error)
