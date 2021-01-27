@@ -11,14 +11,12 @@ const App = () => {
       .get(baseUrl)
       .then(response => {
         setTodos(response.data)
-        console.log(response.data)
       })
   }
   const getImage = () => {
     axios
       .get(`${baseUrl}/image`, {responseType: 'blob'})
       .then(response => {
-        console.log(response)
         setImage(URL.createObjectURL(response.data))
       })
   }
@@ -31,18 +29,14 @@ const App = () => {
   }
   const handleChange = (event) => {
     const todo = event.target.value
-    console.log(todo)
     setTodo(todo)
   }
   const addTodo = async (event) => {
     event.preventDefault()
-    console.log('button clicked')
     const todoToSave = {
       todo: newTodo
     }
     const addedTodo = await axios.post(baseUrl, todoToSave)
-    console.log(addedTodo)
-    console.log(addedTodo.data)
     setTodos(todos.concat(addedTodo.data))
     setTodo('')
   }
