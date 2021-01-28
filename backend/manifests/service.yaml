@@ -8,6 +8,11 @@ spec:
   selector:
     app: todo-backend
   ports:
-    - port: 2345
+    - name: local
+      port: 2345
       protocol: TCP
       targetPort: 3001
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 3001  

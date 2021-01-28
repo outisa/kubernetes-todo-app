@@ -1,0 +1,16 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  namespace: todoapp-namespace
+  name: dailyscript
+spec:
+  # Runs once in a day at 8 o'clock
+  schedule: "0 8 * * *" 
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: dailyscript
+              image: outisa/dailyscript:latest
+          restartPolicy: Never
