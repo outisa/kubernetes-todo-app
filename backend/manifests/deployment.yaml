@@ -19,7 +19,7 @@ spec:
             claimName: image-claim
       containers:
         - name: todo-backend
-          image: outisa/todo-application-backend:2ccc1d1917f1139de0e804b6c78e315a3f2f720b
+          image: outisa/todo-application-backend:174a72db3ebc5586c1aa65f0d0ac7d990d3a1518
           volumeMounts:
             - mountPath: /app/backend/files
               name: shared-image
