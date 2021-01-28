@@ -2,10 +2,13 @@ const todoRouter = require('express').Router()
 const axios = require('axios')
 const path = require('path')
 const fs = require('fs')
+const morgan = require('morgan')
+
 const { createTable, getTodos, addTodo } = require('./queries')
 
 const directory = path.join('/', 'app', 'backend', 'files')
 const imagePath = path.join(directory, 'image.jpg')
+morgan('tiny')
 
 createTable()
 const isToday = (time) => {
@@ -38,12 +41,16 @@ todoRouter.get('/', async (request, response) => {
 })
 
 todoRouter.post('/', async (request, response) => {
-  const todoToSave =  {
-    todo: request.body.todo,
-    done: false
+  if (request.body.todo.length > 140) {
+    response.status(400).send({ error: 'Todo\'s maximum allowed length in 140' })
+  } else {
+    const todoToSave =  {
+      todo: request.body.todo,
+      done: false
+    }
+    savedTodo = await addTodo(todoToSave)
+    response.json(savedTodo)
   }
-  savedTodo = await addTodo(todoToSave)
-  response.json(savedTodo)
 })
 
 todoRouter.get('/image', async (request, response) => {
