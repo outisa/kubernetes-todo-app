@@ -2,13 +2,11 @@ const todoRouter = require('express').Router()
 const axios = require('axios')
 const path = require('path')
 const fs = require('fs')
-const morgan = require('morgan')
 
 const { createTable, getTodos, addTodo } = require('./queries')
 
 const directory = path.join('/', 'app', 'backend', 'files')
 const imagePath = path.join(directory, 'image.jpg')
-morgan('tiny')
 
 createTable()
 const isToday = (time) => {
