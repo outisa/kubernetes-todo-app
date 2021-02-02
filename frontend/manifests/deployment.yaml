@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-frontend-dep
+  name: todo-frontend
 spec:
   replicas: 1
   selector:
@@ -13,5 +13,5 @@ spec:
         app: todo-frontend
     spec:
       containers:
-        - name: todo-frontend-dep
+        - name: todo-frontend
           image: PROJECT/IMAGE

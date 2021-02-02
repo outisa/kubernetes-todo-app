@@ -6,8 +6,8 @@ on:
 env:
   GKE_CLUSTER: dwk-cluster
   GKE_ZONE: europe-north1-b
-  IMAGE1: todo-backend-dep
-  IMAGE: todo-frontend-dep
+  IMAGE1: todo-backend
+  IMAGE: todo-frontend
 
 jobs:
   build-publish-deploy-backend:
