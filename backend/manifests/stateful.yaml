@@ -2,7 +2,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres-svc
-  namespace: todoapp-namespace
   labels:
     app: postgres
 spec:
@@ -16,7 +15,6 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  namespace: todoapp-namespace
   name: postgres-ss
 spec:
   serviceName: postgres
@@ -44,12 +42,12 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /var/lib/postgresql/data
+          subPath: postgres
   volumeClaimTemplates:
   - metadata:
       name: data
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: local-path
       resources:
         requests:
           storage: 100Mi

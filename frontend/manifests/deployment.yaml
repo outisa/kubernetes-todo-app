@@ -1,7 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: todoapp-namespace
   name: todo-frontend-dep
 spec:
   replicas: 1
@@ -14,5 +13,5 @@ spec:
         app: todo-frontend
     spec:
       containers:
-        - name: todo-frontend
-          image: outisa/todo-application-frontend:c76ae2a94734413eca51f2680ab2a4130ca049d3
+        - name: dwk-environments-frontend
+          image: PROJECT/IMAGE
