@@ -4,7 +4,7 @@ on:
   push:
 
 env:
-  GKE_CLUSTER: dvk-cluster
+  GKE_CLUSTER: dwk-cluster
   GKE_ZONE: europe-north1-b
   IMAGE1: dwk-environments-backend
   IMAGE: dwk-environments-frontend
