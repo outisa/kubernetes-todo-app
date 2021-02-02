@@ -13,5 +13,5 @@ spec:
         app: todo-frontend
     spec:
       containers:
-        - name: dwk-environments-frontend
+        - name: todo-frontend-dep
           image: PROJECT/IMAGE

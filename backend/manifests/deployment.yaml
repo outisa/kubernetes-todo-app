@@ -17,8 +17,8 @@ spec:
           persistentVolumeClaim:
             claimName: image-claim
       containers:
-        - name: dwk-environments-backend
-          image: PROJECT/IMAGE2
+        - name: todo-backend-dep
+          image: PROJECT/IMAGE1
           volumeMounts:
             - mountPath: /app/backend/files
               name: shared-image
