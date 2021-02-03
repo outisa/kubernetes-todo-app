@@ -37,9 +37,13 @@ jobs:
         chmod u+x ./kustomize
     - name: Deploy
       run: |-
+        kubectl create namespace ${GITHUB_REF#refs/heads/} || true
+        kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+        ./kustomize edit set namespace ${GITHUB_REF#refs/heads/}
         ./kustomize edit set image PROJECT/IMAGE1=${{ env.IMAGE_WITH_TAG1 }}
         kubectl apply -k .
         kubectl rollout status deployment $IMAGE1
+        
   build-publish-deploy-frontend:
     name: Build, Publish and Deploy frontend
     runs-on: ubuntu-latest
@@ -67,6 +71,9 @@ jobs:
         chmod u+x ./kustomize
     - name: Deploy
       run: |-
+        kubectl create namespace ${GITHUB_REF#refs/heads/} || true
+        kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+        ./kustomize edit set namespace ${GITHUB_REF#refs/heads/}
         ./kustomize edit set image PROJECT/IMAGE=${{ env.IMAGE_WITH_TAG }}
         kubectl apply -k .
         kubectl rollout status deployment $IMAGE 
