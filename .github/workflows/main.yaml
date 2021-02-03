@@ -41,7 +41,7 @@ jobs:
         kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
         ./kustomize edit set namespace ${GITHUB_REF#refs/heads/}
         ./kustomize edit set image PROJECT/IMAGE1=${{ env.IMAGE_WITH_TAG1 }}
-        kubectl create secret generic postgres-credentials-todos --from-literal=POSTGRES_PASSWORD=${{ secrets.SECRET }}
+        kubectl create secret generic postgres-credentials-todos --from-literal=POSTGRES_PASSWORD=${{ secrets.SECRET_YAML }}
         kubectl apply -k .
         kubectl rollout status deployment $IMAGE1
         
