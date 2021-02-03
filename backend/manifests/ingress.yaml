@@ -1,14 +1,14 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: todo-ing
+  name: todo-backend-ing
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /api/$2
 spec:
   rules:
   - http:
       paths:
-      - path: /
+      - path: /api(/|$)(.*)
         backend:
-          serviceName: todo-frontend-svc
+          serviceName: todo-backend-svc
           servicePort: 80

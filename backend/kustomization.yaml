@@ -6,6 +6,7 @@ resources:
 - manifests/sealedsecret.yaml
 - manifests/service.yaml
 - manifests/stateful.yaml
+- manifests/ingress.yaml
 images:
 - name: PROJECT/IMAGE1
   newName: outisa/todo-application-backend
