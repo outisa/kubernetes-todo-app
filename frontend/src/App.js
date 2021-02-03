@@ -18,6 +18,7 @@ const App = () => {
       .get(`${baseUrl}/image`, {responseType: 'blob'})
       .then(response => {
         setImage(URL.createObjectURL(response.data))
+        console.log('hello new image... just for the namespace branch')
       })
   }
   useEffect(getData, [])
