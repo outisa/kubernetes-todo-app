@@ -1,0 +1,23 @@
+name: Delete namespace on delete branch
+
+on:
+  delete:
+env:
+  GKE_CLUSTER: dwk-cluster
+  GKE_ZONE: europe-north1-b
+
+jobs:
+  name: setup-delete-namespace
+  runs-on: ubuntu-latest
+  
+  steps:
+  - name: Chekcout
+    uses: actions/checkout@v2
+
+  - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+    with:
+      service_account_key: ${{ secrets.GKE_SA_KEY }}
+      project_id: ${{ secrets.GKE_PROJECT }}
+
+  - name: delete namespace
+    kubectl delete namespace ${GITHUB_REF#refs/heads/}
