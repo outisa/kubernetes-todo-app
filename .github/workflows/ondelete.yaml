@@ -9,6 +9,7 @@ env:
 
 jobs:
   setup-delete-namespace:
+    if: github.event.ref_type == 'branch'
     name: setup-delete-namespace
     runs-on: ubuntu-latest
   
@@ -23,4 +24,4 @@ jobs:
 
     - name: delete namespace
       run: |-
-        kubectl delete namespace ${GITHUB_REF#refs/heads/}
+        kubectl delete namespace ${{ github.event.ref }}
