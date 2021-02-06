@@ -49,7 +49,7 @@ const App = () => {
       }
       <form  onSubmit={addTodo}>
         <input value={newTodo} placeholder='Add a new todo' onChange={handleChange} maxLength='140'/>
-        <button type='submit' >Send</button>
+        <button type='submit' >Add todo</button>
       </form>
       <ul>
         {todos ? todos.map((todo) => {
