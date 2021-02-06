@@ -3,9 +3,7 @@ kind: Kustomization
 resources:
 - manifests/deployment.yaml
 - manifests/persistentvolumeclaim.yaml
-- manifests/sealedsecret.yaml
 - manifests/service.yaml
-- manifests/stateful.yaml
 images:
 - name: PROJECT/IMAGE1
   newName: outisa/todo-application-backend
