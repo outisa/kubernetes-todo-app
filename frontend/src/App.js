@@ -39,6 +39,7 @@ const App = () => {
     const addedTodo = await axios.post(baseUrl, todoToSave)
     setTodos(todos.concat(addedTodo.data))
     setTodo('')
+    console.log("just testing")
   }
   return (
     <div style={styles}>
