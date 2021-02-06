@@ -9,4 +9,4 @@ spec:
     name: todo-backend
   minReplicas: 1
   maxReplicas: 6
-  targetCPUUtilizationPercentage: 20
+  targetCPUUtilizationPercentage: 50
