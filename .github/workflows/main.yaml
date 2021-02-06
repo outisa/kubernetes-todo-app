@@ -43,7 +43,7 @@ jobs:
         ./kustomize edit set image PROJECT/IMAGE1=${{ env.IMAGE_WITH_TAG1 }}
         kubectl delete secret postgres-credentials-todos --ignore-not-found
         kubectl create secret generic postgres-credentials-todos --from-literal=POSTGRES_PASSWORD=${{ secrets.SECRET_YAML }}
-        kubectl delete manifests/deployment.yaml # A bit stupid way to do this, but otherwise new pod can not access to pvc.
+        kubectl delete -f manifests/deployment.yaml # A bit stupid way to do this, but otherwise new pod can not access to pvc.
         kubectl apply -k .
         kubectl rollout status deployment $IMAGE1
         
