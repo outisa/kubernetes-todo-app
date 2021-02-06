@@ -22,7 +22,7 @@ spec:
           resources:
             limits:
               cpu: "150m"
-              memory: "100Mi"
+              memory: "25Mi"
           volumeMounts:
             - mountPath: /app/backend/files
               name: shared-image
