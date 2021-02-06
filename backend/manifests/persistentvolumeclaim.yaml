@@ -4,7 +4,7 @@ metadata:
   name: image-claim
 spec:
   accessModes:
-    - ReadWriteOnce, ReadOnlyMany
+    - ReadWriteMany
   resources:
     requests:
       storage: 1Gi
