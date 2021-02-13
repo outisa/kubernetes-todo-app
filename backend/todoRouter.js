@@ -1,14 +1,10 @@
 const todoRouter = require('express').Router()
 const axios = require('axios')
-const path = require('path')
-const fs = require('fs')
 
-const { createTable, getTodos, addTodo } = require('./queries')
+const { createTables, getTodos, addTodo, getImage, addImage, updateImage} = require('./queries')
 
-const directory = path.join('/', 'app', 'backend', 'files')
-const imagePath = path.join(directory, 'image.jpg')
+createTables()
 
-createTable()
 const isToday = (time) => {
   console.log(JSON.stringify(time))
   const timeStr = JSON.stringify(time)
@@ -22,15 +18,18 @@ const isToday = (time) => {
   return false
 }
 const getNewImage =  async () => {
-  const response = await axios.get('https://picsum.photos/1200', { responseType: 'stream' })
-  return new Promise(resolve => {
-    response.data.pipe(fs.createWriteStream(imagePath).on('finish', resolve)) 
-  })
-}
-const getImage = async () => {
-  return fs.readFileSync(imagePath, (err) => {
-    if (err) console.log(err)
-  }) 
+  const response = await axios.get('https://picsum.photos/1200', { responseType: 'arraybuffer' })
+  let image = await getImage()
+  const date = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
+  if (image) {
+    await updateImage(1, response.data, date)
+  } else {
+    const imageToSave= {
+      dailyimage: response.data,
+      timestamp: date
+    }
+    return await addImage(imageToSave)
+  }
 }
 
 todoRouter.get('/', async (request, response) => {
@@ -52,23 +51,17 @@ todoRouter.post('/', async (request, response) => {
 })
 
 todoRouter.get('/image', async (request, response) => {
-  let imageToSend = ''
-  if (!fs.existsSync(imagePath)){
-    await getNewImage()
+  let imageToSend = await getImage()
+  if (!imageToSend){
+    imageTosend = await getNewImage()
   } else {
-    const stats = fs.statSync(imagePath)
-    const time = stats.mtime
+    const time = imageToSend.timestamp
     if (!isToday(time)){
-      fs.unlink(imagePath, (err) => console.log(err))
-      await getNewImage()
+      imageTosend = await getNewImage()
     }
   }
-  if (fs.existsSync(imagePath)) {
-    imageToSend = await getImage()
-  }
-  console.log(imageToSend)
   response.set('Content-type', 'application/json');
-  response.send(imageToSend)
+  response.send(imageToSend.dailyimage)
 })
 
 module.exports = todoRouter

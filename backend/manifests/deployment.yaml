@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-backend
+  name: todo-backend-dep
 spec:
   replicas: 1
   selector:
@@ -12,20 +12,13 @@ spec:
       labels:
         app: todo-backend
     spec:
-      volumes:
-        - name: shared-image
-          persistentVolumeClaim:
-            claimName: image-claim
       containers:
         - name: todo-backend
           image: PROJECT/IMAGE1
           resources:
             limits:
               cpu: "150m"
-              memory: "30Mi"
-          volumeMounts:
-            - mountPath: /app/backend/files
-              name: shared-image
+              memory: "50Mi"
           env:
           - name: POSTGRES_PASSWORD
             valueFrom:

@@ -6,7 +6,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: todo-backend
+    name: todo-backend-dep
   minReplicas: 1
   maxReplicas: 6
   targetCPUUtilizationPercentage: 50
