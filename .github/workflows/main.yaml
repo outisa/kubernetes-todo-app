@@ -1,81 +1,30 @@
-name: Release application
+name: Make a new release
 
 on:
   push:
-
-env:
-  GKE_CLUSTER: dwk-cluster
-  GKE_ZONE: europe-north1-b
-  IMAGE1: todo-backend-dep
-  IMAGE: todo-frontend-dep
+    branches:
+      - master
 
 jobs:
-  build-publish-deploy-backend:
-    name: Build, Publish and Deploy backend
+  build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      with:
-        service_account_key: ${{ secrets.GKE_SA_KEY }}
-        project_id: ${{ secrets.GKE_PROJECT }}
-    - run: gcloud --quiet auth configure-docker
-    - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
-    - name: Create image name and tag
-      run: echo "IMAGE_WITH_TAG1=gcr.io/${{ secrets.GKE_PROJECT }}/$IMAGE1:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" >> $GITHUB_ENV
-    - name: Build
-      run: docker build --tag "${{ env.IMAGE_WITH_TAG1 }}" .
-    - name: Publish
-      run: docker push "${{ env.IMAGE_WITH_TAG1 }}"
-    - name: Set up Kustomize
-      run: |-
-        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-        chmod u+x ./kustomize
-    - name: Deploy
-      run: |-
-        kubectl create namespace ${GITHUB_REF#refs/heads/} || true
-        kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
-        ./kustomize edit set namespace ${GITHUB_REF#refs/heads/}
-        ./kustomize edit set image PROJECT/IMAGE1=${{ env.IMAGE_WITH_TAG1 }}
-        kubectl delete secret postgres-credentials-todos --ignore-not-found
-        kubectl create secret generic postgres-credentials-todos --from-literal=POSTGRES_PASSWORD=${{ secrets.SECRET_YAML }}
-        kubectl apply -k .
-        kubectl rollout status deployment $IMAGE1
-        
-  build-publish-deploy-frontend:
-    name: Build, Publish and Deploy frontend
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      with:
-        service_account_key: ${{ secrets.GKE_SA_KEY }}
-        project_id: ${{ secrets.GKE_PROJECT }}
-    - run: gcloud --quiet auth configure-docker
-    - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
-    - name: Create image name and tag
-      run: echo "IMAGE_WITH_TAG=gcr.io/${{ secrets.GKE_PROJECT }}/$IMAGE:${GITHUB_REF#refs/heads/}-$GITHUB_SHA" >> $GITHUB_ENV
-    - name: Build
-      run: docker build --tag "${{ env.IMAGE_WITH_TAG }}" .
-    - name: Publish
-      run: docker push "${{ env.IMAGE_WITH_TAG }}"
-    - name: Set up Kustomize
-      run: |-
-        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-        chmod u+x ./kustomize
-    - name: Deploy
-      run: |-
-        kubectl create namespace ${GITHUB_REF#refs/heads/} || true
-        kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
-        ./kustomize edit set namespace ${GITHUB_REF#refs/heads/}
-        ./kustomize edit set image PROJECT/IMAGE=${{ env.IMAGE_WITH_TAG }}
-        kubectl apply -k .
-        kubectl rollout status deployment $IMAGE 
+      - uses: actions/checkout@v2
+      - name: Publish frontend to Docker hub
+        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip')}}
+        uses: docker/build-push-action@v1.1.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: outisa/todo-application-frontend
+          tags: ${{ github.sha }}
+          path: frontend
+      - name: Publish backend to Docker hub
+        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip')}}
+        uses: docker/build-push-action@v1.1.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: outisa/todo-application-backend
+          tags: ${{ github.sha }}
+          path: backend

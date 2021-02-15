@@ -1,7 +1,8 @@
 const todoRouter = require('express').Router()
 const axios = require('axios')
+const { request, response } = require('express')
 
-const { createTables, getTodos, addTodo, getImage, addImage, updateImage} = require('./queries')
+const { createTables, getTodos, addTodo, getImage, addImage, updateImage, healthcheck} = require('./queries')
 
 createTables()
 
@@ -65,4 +66,7 @@ todoRouter.get('/image', async (request, response) => {
   response.send(imageToSend.dailyimage)
 })
 
+todoRouter.get('/healthcheck', (request, response) => {
+  healthcheck(request, response)
+})
 module.exports = todoRouter

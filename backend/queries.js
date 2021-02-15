@@ -39,6 +39,16 @@ const createTables = async () => {
   })  
 }
 
+const healthcheck = (request, response) => {
+  pool.query('SELECT NOW()', (err, res) => {
+    if (err) {
+      return response.status(500).end()
+    } else {
+      console.log('res', res.data)
+      return response.status(200).end()
+    }
+  }) 
+}
 const addTodo = async (todoToSave) => {
   const queryText = `INSERT INTO todos (todo, done) VALUES ($1, $2) RETURNING *`
   try {
@@ -102,5 +112,6 @@ module.exports = {
   updateTodo,
   updateImage,
   getImage,
-  addImage
+  addImage,
+  healthcheck
 }
