@@ -1,7 +1,7 @@
 const todoRouter = require('express').Router()
 const axios = require('axios')
 
-const { createTables, getTodos, addTodo, getImage, addImage, updateImage, healthcheck} = require('./queries')
+const { createTables, getTodos, addTodo, getImage, addImage, updateImage, healthcheck, updateTodo} = require('./queries')
 
 createTables()
 

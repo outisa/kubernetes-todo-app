@@ -60,11 +60,11 @@ const App = () => {
       <ul>
         {todos ? todos.map((todo) => {
           return (
-            <li key={todo.id}>{todo.todo}
+            <li key={todo.id} padding='5'>{todo.todo}
               {todo.done ? 
                <Icon color='green' name='checkmark'/>
               :
-              <button type='submit' onSubmit={updateTodo(todo.id)}>Mark todo as done</button>
+              <button padding='10' type='submit' onSubmit={updateTodo(todo.id)}>Mark todo as done</button>
               }
             </li>
         )})
