@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: outisa/todo-application-backend:cca443bbbed277f9a875d1bcff41847319f29d4e
+          image: outisa/todo-application-backend:f7b13a853147ba83640aa3c2683ee3d299fedb91
           readinessProbe:
             initialDelaySeconds: 10
             periodSeconds: 5
