@@ -81,7 +81,7 @@ const addImage = async (imageToSave) => {
   const queryText = `INSERT INTO images (dailyimage, timestamp) VALUES ($1, $2) RETURNING *`
   try {
     const results = await pool.query(queryText, [imageToSave.dailyimage, imageToSave.timestamp])
-    return results.rows[0]
+    return await results.rows[0]
   } catch (error) {
     console.log('error insert into table', error)
   }

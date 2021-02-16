@@ -68,7 +68,7 @@ todoRouter.get('/image', async (request, response) => {
     }
   }
   response.set('Content-type', 'application/json');
-  response.send(imageToSend.dailyimage)
+  return response.send(imageToSend.dailyimage)
 })
 
 todoRouter.get('/healthcheck', (request, response) => {

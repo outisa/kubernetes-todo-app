@@ -64,7 +64,7 @@ const App = () => {
               {todo.done ? 
                <Icon color='green' name='checkmark'/>
               :
-              <button padding='10' type='submit' onSubmit={updateTodo(todo.id)}>Mark todo as done</button>
+              <button padding='10' type='submit' onSubmit={() => updateTodo(todo.id)}>Mark todo as done</button>
               }
             </li>
         )})
