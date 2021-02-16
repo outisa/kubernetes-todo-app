@@ -71,10 +71,22 @@ const getTodos = async () => {
 const updateTodo = async (id, done) => {
   const queryText = `UPDATE todos SET done = $1 WHERE id = $2`
   try {
-    const results = await pool.query(queryText, [done, id])
-    return await results.rows[0]
+    await pool.query(queryText, [done, id])
+    console.log(results)
+    console.log(results.rows)
+    return results.rows
   } catch (error) {
     console.log('update row', error)
+  }
+}
+
+const getTodo = async (id) => {
+  const queryText = 'SELECT * FROM todos WHERE id = $1'
+  try {
+    const results = await pool.query(queryText,[id])
+    return results.rows[0]
+  } catch (error) {
+    console.log(error)
   }
 }
 const addImage = async (imageToSave) => {
@@ -99,8 +111,7 @@ const getImage = async () => {
 const updateImage = async (id, dailyimage, timestamp) => {
   const queryText = `UPDATE images SET dailyimage = $1, timestamp = $2 WHERE id = $3`
   try {
-    const results = await pool.query(queryText, [dailyimage, timestamp, id])
-    return await results.rows[0]
+    await pool.query(queryText, [dailyimage, timestamp, id])
   } catch (error) {
     console.log('update row', error)
   }
@@ -113,5 +124,6 @@ module.exports = {
   updateImage,
   getImage,
   addImage,
-  healthcheck
+  healthcheck,
+  getTodo
 }

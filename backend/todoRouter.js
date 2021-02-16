@@ -1,7 +1,7 @@
 const todoRouter = require('express').Router()
 const axios = require('axios')
 
-const { createTables, getTodos, addTodo, getImage, addImage, updateImage, healthcheck, updateTodo} = require('./queries')
+const { createTables, getTodos, addTodo, getImage, addImage, updateImage, healthcheck, updateTodo, getTodo} = require('./queries')
 
 createTables()
 
@@ -23,12 +23,14 @@ const getNewImage =  async () => {
   const date = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
   if (image) {
     await updateImage(1, response.data, date)
+    return await getImage()
   } else {
     const imageToSave= {
       dailyimage: response.data,
       timestamp: date
     }
-    return await addImage(imageToSave)
+    await addImage(imageToSave)
+    return await getImage()
   }
 }
 
@@ -54,7 +56,8 @@ todoRouter.put('/:id', async (request, response) => {
   const id = request.params.id
   if (id) {
     const done = true
-    updatedTodo = await updateTodo(id, done)
+    await updateTodo(id, done)
+    const updatedTodo = await getTodo(id)
     console.log('updatedTodo', updatedTodo)
     response.json(updatedTodo)
   }
