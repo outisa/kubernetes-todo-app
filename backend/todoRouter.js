@@ -52,9 +52,12 @@ todoRouter.post('/', async (request, response) => {
 })
 todoRouter.put('/:id', async (request, response) => {
   const id = request.params.id
-  const done = true
-  updatedTodo = await updateTodo(id, done)
-  response.json(updatedTodo)
+  if (id) {
+    const done = true
+    updatedTodo = await updateTodo(id, done)
+    console.log('updatedTodo', updatedTodo)
+    response.json(updatedTodo)
+  }
 })
 
 todoRouter.get('/image', async (request, response) => {

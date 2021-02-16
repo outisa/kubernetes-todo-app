@@ -53,7 +53,7 @@ const addTodo = async (todoToSave) => {
   const queryText = `INSERT INTO todos (todo, done) VALUES ($1, $2) RETURNING *`
   try {
     const results = await pool.query(queryText, [todoToSave.todo, todoToSave.done])
-    return results.rows[0]
+    return await results.rows[0]
   } catch (error) {
     console.log('error insert into table', error)
   }
@@ -72,7 +72,7 @@ const updateTodo = async (id, done) => {
   const queryText = `UPDATE todos SET done = $1 WHERE id = $2`
   try {
     const results = await pool.query(queryText, [done, id])
-    return results.rows[0]
+    return await results.rows[0]
   } catch (error) {
     console.log('update row', error)
   }
@@ -91,7 +91,7 @@ const getImage = async () => {
   const queryText = 'SELECT * FROM images where id = 1'
   try {
     const results = await pool.query(queryText)
-    return results.rows[0]
+    return await results.rows[0]
   } catch (error) {
     console.log(error)
   }
@@ -100,7 +100,7 @@ const updateImage = async (id, dailyimage, timestamp) => {
   const queryText = `UPDATE images SET dailyimage = $1, timestamp = $2 WHERE id = $3`
   try {
     const results = await pool.query(queryText, [dailyimage, timestamp, id])
-    return results.rows[0]
+    return await results.rows[0]
   } catch (error) {
     console.log('update row', error)
   }

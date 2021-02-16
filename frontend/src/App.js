@@ -44,7 +44,12 @@ const App = () => {
 
   const updateTodo = async (id) => {
     console.log('id', id)
-    const updatedTodo = await axios.put(`${baseUrl}/${id}`,)
+    const todo = todos.filter(todo => todo.id===id)
+    const todoToUpdate = {
+      ...todo[0],
+      done:  true
+    }
+    const updatedTodo = await axios.put(`${baseUrl}/${id}`, todoToUpdate)
     console.log(updatedTodo.data)
     setTodos(todos.map(todo => todo.id === id ? updatedTodo.data : todo))
   }
