@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { Icon } from 'semantic-ui-react'
 
 const App = () => {
   const [todos, setTodos] = useState([])
@@ -40,6 +41,11 @@ const App = () => {
     setTodos(todos.concat(addedTodo.data))
     setTodo('')
   }
+
+  const updateTodo = async (id) => {
+    const updatedTodo = await axios.put(`${baseUrl}/${id}`,'')
+    setTodos(todos.map(todo => todo.id===id ? updatedTodo : todo))
+  }
   return (
     <div style={styles}>
       <h2>Todo App - the way of listing todos</h2>
@@ -53,8 +59,16 @@ const App = () => {
       </form>
       <ul>
         {todos ? todos.map((todo) => {
-          return <li key={todo.id}>{todo.todo}</li>
-        }) : null}
+          return (
+            <li key={todo.id}>{todo.todo}
+              {todo.done ? 
+               <Icon color='green' name='checkmark'/>
+              :
+              <button type='submit' onSubmit={updateTodo(todo.id)}>Mark todo as done</button>
+              }
+            </li>
+        )})
+        : null}
       </ul>
     </div>
   )

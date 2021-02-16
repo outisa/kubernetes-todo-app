@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  namespace: todoapp-namespace
+  namespace: todo-app
   name: dailyscript
 spec:
   # Runs once in a day at 8 o'clock

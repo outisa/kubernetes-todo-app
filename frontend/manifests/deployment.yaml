@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todo-frontend-dep
+  namespace: todo-app
 spec:
   replicas: 1
   selector:

@@ -1,6 +1,5 @@
 const todoRouter = require('express').Router()
 const axios = require('axios')
-const { request, response } = require('express')
 
 const { createTables, getTodos, addTodo, getImage, addImage, updateImage, healthcheck} = require('./queries')
 
@@ -50,6 +49,12 @@ todoRouter.post('/', async (request, response) => {
     savedTodo = await addTodo(todoToSave)
     response.json(savedTodo)
   }
+})
+todoRouter.put('/:id', async (request, response) => {
+  const id = request.params.id
+  const done = true
+  updatedTodo = await updateTodo(id, done)
+  response.json(updatedTodo)
 })
 
 todoRouter.get('/image', async (request, response) => {
