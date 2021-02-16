@@ -45,8 +45,8 @@ const App = () => {
   const updateTodo = async (id) => {
     console.log('id', id)
     const updatedTodo = await axios.put(`${baseUrl}/${id}`,)
-    console.log(updatedTodo)
-    setTodos(todos.map(todo => todo.id === id ? updatedTodo : todo))
+    console.log(updatedTodo.data)
+    setTodos(todos.map(todo => todo.id === id ? updatedTodo.data : todo))
   }
   return (
     <div style={styles}>
@@ -67,7 +67,7 @@ const App = () => {
               <td>{todo.done ? 
                <Icon color='green' name='checkmark'/>
               :
-               <Button positive onClick={updateTodo(todo.id)}>Mark as done</Button>
+               <Button positive onClick={() => updateTodo(todo.id)}>Mark as done</Button>
               }
               </td>
             </tr>
