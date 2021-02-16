@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { Icon } from 'semantic-ui-react'
+import { Button, Icon, Table } from 'semantic-ui-react'
 
 const App = () => {
   const [todos, setTodos] = useState([])
@@ -43,8 +43,10 @@ const App = () => {
   }
 
   const updateTodo = async (id) => {
-    const updatedTodo = await axios.put(`${baseUrl}/${id}`,'')
-    setTodos(todos.map(todo => todo.id===id ? updatedTodo : todo))
+    console.log('id', id)
+    const updatedTodo = await axios.put(`${baseUrl}/${id}`,)
+    console.log(updatedTodo)
+    setTodos(todos.map(todo => todo.id === id ? updatedTodo : todo))
   }
   return (
     <div style={styles}>
@@ -57,19 +59,21 @@ const App = () => {
         <input value={newTodo} placeholder='Add a new todo' onChange={handleChange} maxLength='140'/>
         <button type='submit' >Add todo</button>
       </form>
-      <ul>
+      <Table>
         {todos ? todos.map((todo) => {
           return (
-            <li key={todo.id} padding='5'>{todo.todo}
-              {todo.done ? 
+            <tr key={todo.id}>
+              <td>{todo.todo}</td>
+              <td>{todo.done ? 
                <Icon color='green' name='checkmark'/>
               :
-              <button padding='10' type='submit' onSubmit={() => updateTodo(todo.id)}>Mark todo as done</button>
+              <Button positive type='submit' onClick={updateTodo(todo.id)}>Mark as done</Button>
               }
-            </li>
+              </td>
+            </tr>
         )})
         : null}
-      </ul>
+      </Table>
     </div>
   )
 }
