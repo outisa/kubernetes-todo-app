@@ -57,7 +57,7 @@ const App = () => {
       }
       <form  onSubmit={addTodo}>
         <input value={newTodo} placeholder='Add a new todo' onChange={handleChange} maxLength='140'/>
-        <button type='submit' >Add todo</button>
+        <Button primary type='submit' >Add todo</Button>
       </form>
       <Table>
         {todos ? todos.map((todo) => {
@@ -67,7 +67,7 @@ const App = () => {
               <td>{todo.done ? 
                <Icon color='green' name='checkmark'/>
               :
-              <Button positive type='submit' onClick={updateTodo(todo.id)}>Mark as done</Button>
+               <Button positive onClick={updateTodo(todo.id)}>Mark as done</Button>
               }
               </td>
             </tr>
