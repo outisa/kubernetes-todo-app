@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: outisa/todo-application-backend:f7b13a853147ba83640aa3c2683ee3d299fedb91
+          image: IMAGE_PLACEHOLDER
           readinessProbe:
             initialDelaySeconds: 10
             periodSeconds: 5

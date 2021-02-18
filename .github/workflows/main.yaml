@@ -1,12 +1,17 @@
-name: Make a new release
+name: Release todo-app
 
 on:
   push:
     branches:
       - master
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/main.yaml'
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,3 +33,51 @@ jobs:
           repository: outisa/todo-application-backend
           tags: ${{ github.sha }}
           path: backend
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Kustomize frontend
+        working-directory: frontend-conf/manifests
+        run: |-
+          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+          chmod u+x ./kustomize
+        
+      - name: Update yamls
+        working-directory: frontend-conf/manifests  
+        run: |-
+          ./kustomize edit set image IMAGE_PLACEHOLDER=outisa/todo-application-frontend:${{ github.sha }}
+
+      - uses: EndBug/add-and-commit@v5
+        with:
+          add: 'frontend-conf/manifests/kustomization.yaml'
+          message: New version release for todo frontend ${{ github.sha }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+ 
+      - name: Set up Kustomize backend
+        working-directory: backend-conf/manifests
+        run: |-
+          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+          chmod u+x ./kustomize
+      
+      - name: Add secret
+        working-directory: backend-conf/manifests
+        run: |-
+          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+          chmod u+x ./kustomize        
+      - name: Update yamls
+        working-directory: backend-conf/manifests  
+        run: |-
+          ./kustomize edit set image IMAGE_PLACEHOLDER=outisa/todo-application-backend:${{ github.sha }}
+
+      - uses: EndBug/add-and-commit@v5
+        with:
+          add: 'backend-conf/manifests/kustomization.yaml'
+          message: New version release for todo backend ${{ github.sha }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}         
