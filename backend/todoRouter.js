@@ -36,7 +36,6 @@ const getNewImage =  async () => {
 
 todoRouter.get('/', async (request, response) => {
   const todoList = await getTodos()
-  console.log(todoList)
   response.json(todoList)
 })
 
@@ -58,7 +57,6 @@ todoRouter.put('/:id', async (request, response) => {
     const done = true
     await updateTodo(id, done)
     const updatedTodo = await getTodo(id)
-    console.log('updatedTodo', updatedTodo)
     response.json(updatedTodo)
   }
 })
