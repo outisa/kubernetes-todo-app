@@ -9,5 +9,12 @@ spec:
     app: todo-backend
   ports:
     - port: 2345
+      name: local
       protocol: TCP
-      targetPort: 3001  
+      targetPort: 3001 
+    - port: 80
+      name: http
+      protocol: TCP
+      targetPort: 3001      
+      
+      
