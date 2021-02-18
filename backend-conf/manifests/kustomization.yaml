@@ -7,7 +7,6 @@ resources:
 - service.yaml
 - stateful.yaml
 - sealedsecret.yaml
-- analysistemplate.yaml
 images:
 - name: IMAGE_PLACEHOLDER
   newName: outisa/todo-application-backend
