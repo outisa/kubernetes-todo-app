@@ -64,6 +64,7 @@ const App = () => {
         <input value={newTodo} placeholder='Add a new todo' onChange={handleChange} maxLength='140'/>
         <Button primary type='submit' >Add todo</Button>
       </form>
+      <h3>Your personal todolist</h3>
       <Table>
         {todos ? todos.map((todo) => {
           return (
