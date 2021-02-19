@@ -86,6 +86,7 @@ todoRouter.delete('/:id', async (request, response) => {
     response.status(204).end()
   }
 })
+
 todoRouter.get('/image', async (request, response) => {
   let imageToSend = await getImage()
   if (!imageToSend){
