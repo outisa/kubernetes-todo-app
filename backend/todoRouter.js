@@ -80,9 +80,10 @@ todoRouter.put('/:id', async (request, response) => {
 todoRouter.delete('/:id', async (request, response) => {
   const id = request.params.id
   if (id) {
+    const todoToDelete = getTodo(id)
     await deleteTodo(id)
     await confirmConnection()
-    nc.publish('deleted_todo', JSON.stringify({todoId: id}))
+    nc.publish('deleted_todo', JSON.stringify(todoToDelete))
     response.status(204).end()
   }
 })
