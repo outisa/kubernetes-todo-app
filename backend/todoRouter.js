@@ -18,7 +18,6 @@ const confirmConnection = async () => {
 }
 
 const isToday = (time) => {
-  console.log(JSON.stringify(time))
   const timeStr = JSON.stringify(time)
   const day = timeStr.substring(9,11)
   const month = timeStr.substring(6,8)
@@ -83,7 +82,6 @@ todoRouter.delete('/:id', async (request, response) => {
     const todoToDelete = await getTodo(id)
     await deleteTodo(id)
     await confirmConnection()
-    console.log('todoToDelete', todoToDelete)
     nc.publish('deleted_todo', JSON.stringify(todoToDelete))
     response.status(204).end()
   }

@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
   name: todo-backend-dep
-  namespace: todo-backend
+  namespace: todo-app
 spec:
   replicas: 2
   selector:
@@ -13,7 +13,7 @@ spec:
       steps:
       - setWeight: 50
       - pause:
-          duration: 30s
+        duration: 30s
   template:
     metadata:
       labels:
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: IMAGE_PLACEHOLDER
+          image: outisa/todo-application-backend:e38785331e0871a8f498731e5e76e896b358f3e1
           readinessProbe:
             initialDelaySeconds: 10
             periodSeconds: 5
@@ -41,4 +41,7 @@ spec:
                 name: postgres-credentials-todos
                 key: POSTGRES_PASSWORD
           - name: NATS_URL
-            value: nats://my-nats:4222
+            valueFrom:
+              secretKeyRef:
+                name: url-secrets
+                key: NATS_URL
