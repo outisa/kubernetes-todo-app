@@ -87,7 +87,7 @@ const App = () => {
                <Button positive onClick={() => updateTodo(todo.id)}>Mark as done</Button>
               }
               </td>
-              <td><Icon color='red' name='close icon' onClick={() => deleteTodo(todo.id)}/></td>
+              <td><Button negative basic onClick={() => deleteTodo(todo.id)}><Icon color='red' name='close icon' /></Button></td>
             </tr>
         )})
         : null}
