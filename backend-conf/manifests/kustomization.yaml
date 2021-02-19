@@ -7,6 +7,8 @@ resources:
 - service.yaml
 - stateful.yaml
 - sealedsecret.yaml
+- broadcaster/manifests/sealedsecret.yaml
+- broadcaster/manifests/deployment.yaml
 images:
 - name: IMAGE_PLACEHOLDER
   newName: outisa/todo-application-backend
