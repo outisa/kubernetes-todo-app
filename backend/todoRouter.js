@@ -83,6 +83,7 @@ todoRouter.delete('/:id', async (request, response) => {
     const todoToDelete = getTodo(id)
     await deleteTodo(id)
     await confirmConnection()
+    console.log(todoToDelete)
     nc.publish('deleted_todo', JSON.stringify(todoToDelete))
     response.status(204).end()
   }
