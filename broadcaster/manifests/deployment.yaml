@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broadcaster-dep
+  namespace: todo-app
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: broadcaster
+  template:
+    metadata:
+      labels:
+        app: broadcaster
+    spec:
+      containers:
+        - name: broadcaster
+          image: outisa/broadcaster:1301
+          env:
+          - name: DISCORD_WEBHOOK
+            valueFrom:
+              secretKeyRef:
+                name: url-secrets
+                key: DISCORD_WEBHOOK
+          - name: NATS_URL
+            valueFrom:
+              secretKeyRef:
+                name: url-secrets
+                key: NATS_URL

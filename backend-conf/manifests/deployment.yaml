@@ -35,4 +35,7 @@ spec:
                 name: postgres-credentials-todos
                 key: POSTGRES_PASSWORD
           - name: NATS_URL
-            value: nats://my-nats:4222
+            valueFrom:
+              secretKeyRef:
+                name: url-secrets
+                key: NATS_URL
