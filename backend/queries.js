@@ -76,14 +76,16 @@ const updateTodo = async (id, done) => {
     console.log('update row', error)
   }
 }
+
 const deleteTodo = async (id) => {
-  const queryText = `DELETE todos WHERE id = $1`
+  const queryText = `DELETE FROM todos WHERE id = $1`
   try {
-    await pool.query(queryText, [ id])
+    await pool.query(queryText, [id])
   } catch (error) {
     console.log('update row', error)
   }
 }
+
 const getTodo = async (id) => {
   const queryText = 'SELECT * FROM todos WHERE id = $1'
   try {
