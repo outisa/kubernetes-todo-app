@@ -1,6 +1,7 @@
 const todoRouter = require('express').Router()
 const axios = require('axios')
-
+const NATS = require('nats')
+const nc  = NATS.connect(process.env.NATS_URL)
 const { createTables, getTodos, addTodo, getImage, addImage, updateImage, healthcheck, updateTodo, getTodo} = require('./queries')
 
 createTables()
@@ -48,6 +49,9 @@ todoRouter.post('/', async (request, response) => {
       done: false
     }
     savedTodo = await addTodo(todoToSave)
+    nc.subscribe('broadcast', { queue: 'todo.saved' }, (savedTodo) => {
+      nc.publish('saved_todo', `A new todo is saved: ${savedTodo.todo}`)
+    })
     response.json(savedTodo)
   }
 })
@@ -57,6 +61,9 @@ todoRouter.put('/:id', async (request, response) => {
     const done = true
     await updateTodo(id, done)
     const updatedTodo = await getTodo(id)
+    nc.subscribe('broadcast', { queue: 'todo.updated' }, (updatedTodo) => {
+      nc.publish('updated_todo', `This todo is marked as done: ${updatedTodo.todo}`)
+    })
     response.json(updatedTodo)
   }
 })
