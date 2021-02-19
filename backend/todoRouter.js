@@ -2,7 +2,7 @@ const todoRouter = require('express').Router()
 const axios = require('axios')
 const NATS = require('nats')
 const nc  = NATS.connect(process.env.NATS_URL)
-const { createTables, getTodos, addTodo, getImage, addImage, updateImage, healthcheck, updateTodo, getTodo} = require('./queries')
+const { createTables, getTodos, addTodo, getImage, addImage, updateImage, healthcheck, updateTodo, getTodo, deleteTodo} = require('./queries')
 
 createTables()
 
