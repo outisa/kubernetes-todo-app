@@ -6,6 +6,17 @@ const { createTables, getTodos, addTodo, getImage, addImage, updateImage, health
 
 createTables()
 
+const confirmConnection = async () => {
+  const ready = await new Promise(resolve => {
+    let subscription = nc.subscribe('broadcast_status', (msg) => {
+      if (msg !== 'i_am') return
+      resolve(subscription)
+    })
+    nc.publish('broadcast_status', 'anybody_there')
+  })
+  nc.unsubscribe(ready)
+}
+
 const isToday = (time) => {
   console.log(JSON.stringify(time))
   const timeStr = JSON.stringify(time)
@@ -18,6 +29,7 @@ const isToday = (time) => {
   }
   return false
 }
+
 const getNewImage =  async () => {
   const response = await axios.get('https://picsum.photos/1200', { responseType: 'arraybuffer' })
   let image = await getImage()
@@ -49,9 +61,8 @@ todoRouter.post('/', async (request, response) => {
       done: false
     }
     savedTodo = await addTodo(todoToSave)
-    nc.subscribe('broadcast', { queue: 'todo.saved' }, (savedTodo) => {
-      nc.publish('saved_todo', `A new todo is saved: ${savedTodo.todo}`)
-    })
+    await confirmConnection()
+    nc.publish('saved_todo', JSON.stringify(savedTodo))
     response.json(savedTodo)
   }
 })
@@ -61,13 +72,20 @@ todoRouter.put('/:id', async (request, response) => {
     const done = true
     await updateTodo(id, done)
     const updatedTodo = await getTodo(id)
-    nc.subscribe('broadcast', { queue: 'todo.updated' }, (updatedTodo) => {
-      nc.publish('updated_todo', `This todo is marked as done: ${updatedTodo.todo}`)
-    })
+    await confirmConnection()
+    nc.publish('updated_todo', JSON.stringify(updatedTodo))
     response.json(updatedTodo)
   }
 })
-
+todoRouter.delete('/:id', async (request, response) => {
+  const id = request.params.id
+  if (id) {
+    await deleteTodo(id)
+    await confirmConnection()
+    nc.publish('deleted_todo', JSON.stringify({todoId: id}))
+    response.status(204).end()
+  }
+})
 todoRouter.get('/image', async (request, response) => {
   let imageToSend = await getImage()
   if (!imageToSend){

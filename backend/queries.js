@@ -72,14 +72,18 @@ const updateTodo = async (id, done) => {
   const queryText = `UPDATE todos SET done = $1 WHERE id = $2`
   try {
     await pool.query(queryText, [done, id])
-    console.log(results)
-    console.log(results.rows)
-    return results.rows
   } catch (error) {
     console.log('update row', error)
   }
 }
-
+const deleteTodo = async (id) => {
+  const queryText = `DELETE todos WHERE id = $1`
+  try {
+    await pool.query(queryText, [ id])
+  } catch (error) {
+    console.log('update row', error)
+  }
+}
 const getTodo = async (id) => {
   const queryText = 'SELECT * FROM todos WHERE id = $1'
   try {
@@ -125,5 +129,6 @@ module.exports = {
   getImage,
   addImage,
   healthcheck,
-  getTodo
+  getTodo,
+  deleteTodo
 }

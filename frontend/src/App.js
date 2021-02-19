@@ -53,6 +53,12 @@ const App = () => {
     console.log(updatedTodo.data)
     setTodos(todos.map(todo => todo.id === id ? updatedTodo.data : todo))
   }
+  const deleteTodo = async (id) => {
+    console.log('id', id)
+    await axios.delete(`${baseUrl}/${id}`)
+    setTodos(todos.filter(todo => todo.id !== id))
+  }
+
   return (
     <div style={styles}>
       <h2>Todo App - the way of listing todos</h2>
@@ -66,6 +72,11 @@ const App = () => {
       </form>
       <h3>Your personal todolist</h3>
       <Table>
+        <tr>
+          <td>Todo</td>
+          <td>Readiness</td>
+          <td></td>
+        </tr>
         {todos ? todos.map((todo) => {
           return (
             <tr key={todo.id}>
@@ -76,6 +87,7 @@ const App = () => {
                <Button positive onClick={() => updateTodo(todo.id)}>Mark as done</Button>
               }
               </td>
+              <td><Icon color='red' name='close icon' onClick={() => deleteTodo(todo.id)}/></td>
             </tr>
         )})
         : null}
