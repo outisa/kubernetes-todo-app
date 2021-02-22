@@ -12,4 +12,4 @@ resources:
 images:
 - name: IMAGE_PLACEHOLDER
   newName: outisa/todo-application-backend
-  newTag: ef7a312dc3885f6fff5dc1bfcf3411f41ad468a5
+  newTag: a442c8d2c51e935c5f859d35c4ce550a522ff1e6
