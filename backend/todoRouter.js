@@ -100,7 +100,8 @@ todoRouter.get('/image', async (request, response) => {
       imageTosend = await getNewImage()
     }
   }
-  response.set('Content-type', 'application/json');
+  imageToSend = await getImage()
+  response.set('Content-type', 'application/json') 
   return response.send(imageToSend.dailyimage)
 })
 
