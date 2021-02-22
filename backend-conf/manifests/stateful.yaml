@@ -18,8 +18,6 @@ kind: StatefulSet
 metadata:
   name: postgres-ss
   namespace: todo-app
-  annotations:
-    linkerd.io/inject: enabled
 spec:
   serviceName: postgres
   replicas: 1
@@ -28,6 +26,8 @@ spec:
       app: postgres
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: postgres
     spec:

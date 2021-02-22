@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: todo-frontend-dep
   namespace: todo-app
-  annotations:
-    linkerd.io/inject: enabled
 spec:
   replicas: 1
   selector:
@@ -12,6 +10,8 @@ spec:
       app: todo-frontend
   template:
     metadata:
+      annotations:
+        linkerd.io/inject: enabled
       labels:
         app: todo-frontend
     spec:
