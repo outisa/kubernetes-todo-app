@@ -9,11 +9,8 @@ createTables()
 const confirmConnection = async () => {
   const ready = await new Promise(resolve => {
     let subscription = nc.subscribe('broadcast_status', (msg) => {
-      if (msg !== 'i_am') {
-        return
-      } else {
-        resolve(subscription)
-      }
+      if (msg !== 'i_am') return
+      resolve(subscription)
     })
     nc.publish('broadcast_status', 'anybody_there')
   })
