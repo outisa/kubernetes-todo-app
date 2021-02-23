@@ -5,8 +5,6 @@ const nc = NATS.connect({
 
 const { Webhook, MessageBuilder } = require('discord-webhook-node')
 const myurl = process.env.DISCORD_WEBHOOK
-console.log(`${process.env.DISCORD_WEBHOOK}`)
-console.log(myurl)
 const hook = new Webhook(myurl)
  
 let preoccupied = false
