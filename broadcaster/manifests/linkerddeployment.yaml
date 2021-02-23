@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broadcaster-dep
+  namespace: todo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broadcaster
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: broadcaster
+    spec:
+      containers:
+      - env:
+        - name: DISCORD_WEBHOOK
+          valueFrom:
+            secretKeyRef:
+              key: DISCORD_WEBHOOK
+              name: url-secrets
+        - name: NATS_URL
+          valueFrom:
+            secretKeyRef:
+              key: NATS_URL
+              name: url-secrets
+        image: outisa/broadcaster:421342
+        name: broadcaster
+---

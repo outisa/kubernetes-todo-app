@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-backend-dep
+  namespace: todo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-backend
+  template:
+    metadata:
+      annotations:
+        linkerd.io/inject: enabled
+      labels:
+        app: todo-backend
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: POSTGRES_PASSWORD
+              name: postgres-credentials-todos
+        - name: NATS_URL
+          valueFrom:
+            secretKeyRef:
+              key: NATS_URL
+              name: url-secrets
+        image: IMAGE_PLACEHOLDER
+        livenessProbe:
+          httpGet:
+            path: /api/todos/healthcheck
+            port: 3001
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        name: todo-backend
+        readinessProbe:
+          httpGet:
+            path: /api/todos/healthcheck
+            port: 3001
+          initialDelaySeconds: 10
+          periodSeconds: 5
+---
