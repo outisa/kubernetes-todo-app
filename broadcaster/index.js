@@ -1,3 +1,5 @@
+// I used example app https://github.com/kubernetes-hy/material-example/tree/master/app9 as
+// a guide for this exercise
 const NATS = require('nats')
 const nc = NATS.connect({
   url: process.env.NATS_URL || 'nats://nats:4222'
