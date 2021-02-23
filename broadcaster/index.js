@@ -3,8 +3,11 @@ const nc = NATS.connect({
   url: process.env.NATS_URL || 'nats://nats:4222'
 })
 
-const { Webhook, MessageBuilder } = require('discord-webhook-node');
-const hook = new Webhook(`${process.env.DISCORD_WEBHOOK}`);
+const { Webhook, MessageBuilder } = require('discord-webhook-node')
+const myurl = process.env.DISCORD_WEBHOOK
+console.log(`${process.env.DISCORD_WEBHOOK}`)
+console.log(myurl)
+const hook = new Webhook(myurl)
  
 let preoccupied = false
 
@@ -43,7 +46,7 @@ const sendUpdateToDiscord = async ( todo ) => {
     .setColor('#00b0f4')
     .setTimestamp()
   
-  hook.send(embeds)
+  await hook.send(embeds)
   setReady()
 }
 const sendToDiscord = async ( todo ) => {
@@ -53,7 +56,7 @@ const sendToDiscord = async ( todo ) => {
     .addField('Todo was saved', `${todo}`, true)
     .setTimestamp()
   
-  hook.send(embeds)
+  await hook.send(embeds)
   setReady()
 }
 
@@ -65,7 +68,7 @@ const sendDeleteToDiscord = async ( todo ) => {
     .setColor('#00b0f4')
     .setTimestamp()
   
-  hook.send(embeds)
+  await hook.send(embeds)
   setReady()
 }
 

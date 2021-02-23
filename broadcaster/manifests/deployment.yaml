@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: broadcaster
-          image: outisa/broadcaster:1301
+          image: outisa/broadcaster:1331
           env:
           - name: DISCORD_WEBHOOK
             valueFrom:
