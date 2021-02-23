@@ -6,10 +6,14 @@ const { createTables, getTodos, addTodo, getImage, addImage, updateImage, health
 
 createTables()
 
+// I used exaple app https://github.com/kubernetes-hy/material-example/tree/master/app9 as help
+// for messaging exercise
 const confirmConnection = async () => {
   const ready = await new Promise(resolve => {
     let subscription = nc.subscribe('broadcast_status', (msg) => {
-      if (msg !== 'i_am') return
+      if (msg !== 'i_am') { 
+        return
+      }
       resolve(subscription)
     })
     nc.publish('broadcast_status', 'anybody_there')
